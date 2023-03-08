@@ -165,7 +165,7 @@ jobs:
 
   deploy-infrastructure:
     docker:
-      - image: cimg/basic:stable
+      - image: cimg/python:3.10
     steps:
       - checkout
       - install_awscli
