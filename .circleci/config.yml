@@ -255,7 +255,7 @@ jobs:
           command: |
             cd backend
             cat .env
-            npm i
+            npm install
             npm run build
             npm run migrations
       - run:
