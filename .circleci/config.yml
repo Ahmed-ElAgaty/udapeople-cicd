@@ -380,8 +380,7 @@ jobs:
             fi
       - destroy-environment
       - revert-migrations
-#till here the code, one more test, one more   
-#New line to be added, let's try
+
 
 #   cloudfront-update:
 #     docker:
