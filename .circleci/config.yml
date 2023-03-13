@@ -380,7 +380,7 @@ jobs:
             fi
       - destroy-environment
       - revert-migrations
-#try for today
+
 
 #   cloudfront-update:
 #     docker:
