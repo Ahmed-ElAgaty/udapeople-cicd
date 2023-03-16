@@ -1,0 +1,16 @@
+1. Github account:
+	https://github.com/Ahmed-ElAgaty/udapeople-cicd
+2. Public URL for S3 bucket:
+	http://udapeople-cddcdd6.s3-website-us-west-2.amazonaws.com
+3. Public URL for Cloudfront:
+	http://dgufpbvztyo0t.cloudfront.net
+4. Public URL to deployed application back-end:
+	4.1. DNS:
+		ec2-35-93-46-140.us-west-2.compute.amazonaws.com
+	4.2. Public IP Address:
+		35.93.46.140
+5. Public URL to your Prometheus Server:
+	5.1. DNS:
+		ec2-35-91-191-174.us-west-2.compute.amazonaws.com
+	5.2. Public IP Address:
+		35.91.191.174
