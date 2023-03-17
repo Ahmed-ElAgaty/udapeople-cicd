@@ -439,6 +439,8 @@ jobs:
           event: pass
           channel: cicd-pipeline
           template: success_tagged_deployment
+
+          
 workflows:
   default:
     jobs:
