@@ -86,18 +86,22 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          keys: [frontend-deps]
+          keys:
+            - frontend-deps-{{ checksum "frontend/package-lock.json" }}
+      - run:
+          name: Install dependencies
+          command: |
+            cd frontend
+            npm install
       - run:
           name: Build front-end
           command: |
             cd frontend
-            npm install
             npm run build
       - save_cache:
           paths: [frontend/node_modules]
-          key: frontend-deps
+          key: frontend-deps-{{ checksum "frontend/package-lock.json" }}
       - notify_on_failure
-
 
   build-backend:
     docker:
@@ -105,16 +109,21 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          keys: [backend-deps]
+          keys:
+            - backend-deps-{{ checksum "backend/package-lock.json" }}
       - run:
-          name: Back-end build
+          name: Install dependencies
           command: |
-             cd backend
-             npm install
-             npm run build
+              cd backend
+              npm install
+      - run:
+          name: Build backend
+          command: |
+              cd backend
+              npm run build
       - save_cache:
           paths: [backend/node_modules]
-          key: backend-deps
+          key: backend-deps-{{ checksum "backend/package-lock.json" }}
       - notify_on_failure
 
   test-frontend:
@@ -123,47 +132,59 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          keys: [frontend-deps]
+          keys:
+            - frontend-deps-{{ checksum "frontend/package-lock.json" }}
       - run:
-          name: front-end Unit Test
+          name: Install dependencies
           command: |
-            cd frontend
-            npm install
-            npm test
+              cd frontend
+              npm install
+      - run:
+          name: Run frontend unit tests
+          command: |
+              cd frontend
+              npm run test
       - notify_on_failure
 
-                
   test-backend:
     docker:
       - image: cimg/node:13.8.0
     steps:
       - checkout
       - restore_cache:
-          keys: [backend-deps]
+          keys:
+            - backend-deps-{{ checksum "backend/package-lock.json" }}
       - run:
-          name: Back-end Unit Test
+          name: Install dependencies
           command: |
-             cd backend
-             npm install
-             npm test
+              cd backend
+              npm install
+      - run:
+          name: Run backend unit tests
+          command: |
+              cd backend
+              npm run test
       - notify_on_failure
-
-            
+    
   scan-frontend:
     docker:
       - image: cimg/node:13.8.0
     steps:
       - checkout
       - restore_cache:
-          keys: [frontend-deps]
+          keys:
+            - frontend-deps-{{ checksum "frontend/package-lock.json" }}
       - run:
-          name: front-end Scan
+          name: Install dependencies
           command: |
-            cd frontend
-            npm install
-            npm audit fix --audit-level=critical --force
-            npm audit fix --audit-level=critical --force
-            npm audit --audit-level=critical
+              cd frontend
+              npm install
+      - run:
+          name: Scan frontend packages
+          command: |
+              cd frontend
+              npm audit fix --force --audit-level=critical
+              npm audit --audit-level=critical
       - notify_on_failure
 
   scan-backend:
@@ -172,15 +193,20 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          keys: [backend-deps]
+          keys:
+            - backend-deps-{{ checksum "backend/package-lock.json" }}
       - run:
-          name: Back-end Scan
+          name: Install dependencies
           command: |
-             cd backend
-             npm install
-             npm audit fix --audit-level=critical --force
-             npm audit fix --audit-level=critical --force
-             npm audit --audit-level=critical
+              cd backend
+              npm install
+      - run:
+          name: Scan backend packages
+          command: |
+            cd backend
+            npm audit fix --force --audit-level=critical
+            npm audit fix --force --audit-level=critical
+            npm audit --audit-level=critical
       - notify_on_failure
 
   deploy-infrastructure:
