@@ -126,7 +126,6 @@ jobs:
           key: backend-deps-{{ checksum "backend/package-lock.json" }}
       - notify_on_failure
 
-
   test-frontend:
     docker:
       - image: cimg/node:13.8.0
